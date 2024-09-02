@@ -18,10 +18,11 @@ func CreateTeam(team models.Teams) error {
 	}
 	return nil
 }
+
 func GetAllTeams() ([]models.Teams, error) {
 	db := database.DB.Db
 
-	rows, err := db.Query(`SELECT team_id, team_name, team_members, score, hint_number FROM products`)
+	rows, err := db.Query(`SELECT team_id, team_name, team_members, score, hint_number FROM team`)
 	if err != nil {
 		return nil, err
 	}
@@ -31,12 +32,14 @@ func GetAllTeams() ([]models.Teams, error) {
 
 	for rows.Next() {
 		var team models.Teams
+		var members pq.StringArray
 
-		err := rows.Scan(&team.TeamID, &team.TeamName, &team.TeamMembers, &team.Score, &team.HintNumber)
+		err := rows.Scan(&team.TeamID, &team.TeamName, &members, &team.Score, &team.HintNumber)
 		if err != nil {
 			return nil, err
 		}
 
+		team.TeamMembers = []string(members)
 		teams = append(teams, team)
 	}
 

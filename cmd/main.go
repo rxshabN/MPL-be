@@ -17,5 +17,6 @@ func main() {
 	})
 
 	e.POST("/createTeam", controllers.CreateTeam)
+	e.GET("/getAllTeams", controllers.GetAllTeams)
 	e.Start(":8080")
 }
