@@ -5,9 +5,10 @@ import (
 	"log"
 	"os"
 	"strconv"
-    "github.com/oik17/mpl-be/internal/utils"
+
 	"github.com/jmoiron/sqlx"
 	_ "github.com/lib/pq" // Import the PostgreSQL driver
+	"github.com/oik17/mpl-be/internal/utils"
 )
 
 type Dbinstance struct {
@@ -23,7 +24,7 @@ func Connect() {
 		fmt.Println("Error parsing str to int")
 	}
 
-	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%d sslmode=require TimeZone=Asia/Shanghai", utils.Config("DB_HOST"), utils.Config("DB_USER"), utils.Config("DB_PASSWORD"), utils.Config("DB_NAME"), port)
+	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%d sslmode=disable TimeZone=Asia/Shanghai", utils.Config("DB_HOST"), utils.Config("DB_USER"), utils.Config("DB_PASSWORD"), utils.Config("DB_NAME"), port)
 
 	db, err := sqlx.Open("postgres", dsn)
 	if err != nil {
@@ -50,6 +51,13 @@ func Connect() {
 func runMigrations(db *sqlx.DB) {
 	_, err := db.Exec(`
 		CREATE TABLE test (test VARCHAR(255));
+	
+		CREATE TABLE team(
+			team_id UUID PRIMARY KEY,
+			team_name VARCHAR(255),
+			team_members TEXT[],
+			score INTEGER,
+			hint_number INTEGER);
 	`)
 
 	if err != nil {
