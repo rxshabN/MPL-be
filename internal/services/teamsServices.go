@@ -49,3 +49,12 @@ func GetAllTeams() ([]models.Teams, error) {
 
 	return teams, nil
 }
+
+func UpdateTeamScore(teamID string, score int) error {
+	db := database.DB.Db
+	_, err := db.Exec(`UPDATE team SET score=$1 WHERE team_id=$2`, score, teamID)
+	if err != nil {
+		return err
+	}
+	return nil
+}

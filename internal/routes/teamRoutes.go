@@ -10,4 +10,5 @@ func TeamRoutes(e *echo.Echo) {
 
 	r.POST("/createTeam", controllers.CreateTeam)
 	r.GET("/getAllTeams", controllers.GetAllTeams)
+	r.PUT("/updateScore/:teamID", controllers.UpdateTeamScore)
 }
