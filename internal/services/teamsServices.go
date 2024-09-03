@@ -93,7 +93,7 @@ func UpdateTeamScore(teamID string, score int) error {
 func GetAllTeamsByHint() ([]models.Teams, error) {
 	db := database.DB.Db
 
-	rows, err := db.Query(`SELECT team_id, team_name, team_members, score, hint_number FROM team ORDER BY hint`)
+	rows, err := db.Query(`SELECT team_id, team_name, team_members, score, hint_number FROM team ORDER BY hint_number`)
 	if err != nil {
 		return nil, err
 	}
@@ -123,7 +123,7 @@ func GetAllTeamsByHint() ([]models.Teams, error) {
 
 func UpdateTeamHint(teamID string, hint int) error {
 	db := database.DB.Db
-	_, err := db.Exec(`UPDATE team SET hint=$1 WHERE team_id=$2`, hint, teamID)
+	_, err := db.Exec(`UPDATE team SET hint_number=$1 WHERE team_id=$2`, hint, teamID)
 	if err != nil {
 		return err
 	}
