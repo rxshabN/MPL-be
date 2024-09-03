@@ -13,7 +13,7 @@ func TeamRoutes(e *echo.Echo) {
 
 	r.GET("/getTeamsByScore", controllers.GetAllTeamsByScore)
 	r.PUT("/updateScore/:teamID", controllers.UpdateTeamScore)
-	
+
 	r.GET("/getTeamsByHint", controllers.GetAllTeamsByHints)
 	r.PUT("/updateHint/:teamID", controllers.UpdateTeamHint)
 }
