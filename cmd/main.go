@@ -20,8 +20,9 @@ func main() {
 
 	e.POST("/signup", controllers.Signup)
 	e.POST("/login", controllers.Login)
-	e.GET("/", func(c echo.Context) error {
-		return c.JSON(http.StatusOK, map[string]string{"message": "Hello, Echo!"})
+
+	e.GET("/ping", func(c echo.Context) error {
+		return c.String(http.StatusOK, "pong")
 	})
 	routes.TeamRoutes(e)
 	e.Start(":8080")

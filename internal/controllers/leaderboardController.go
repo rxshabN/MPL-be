@@ -99,6 +99,6 @@ func GetTimeLeft(c echo.Context) error {
 	remainingTime := utils.GlobalTimer.TimeLeft()
 
 	return c.JSON(http.StatusOK, map[string]int{
-		"time_left": remainingTime,
+		"time_left": remainingTime/1000000000,
 	})
 }
