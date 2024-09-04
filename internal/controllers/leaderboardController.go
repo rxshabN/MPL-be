@@ -51,13 +51,22 @@ func UpdateTeamHint(c echo.Context) error {
 	var hint struct {
 		Hint int `json:"hint"`
 	}
+
 	if err := c.Bind(&hint); err != nil {
 		return c.JSON(http.StatusBadRequest, map[string]string{
 			"message": "Invalid input",
 			"data":    err.Error(),
 		})
 	}
-	err := services.UpdateTeamHint(teamID, hint.Hint)
+	if utils.GlobalTimer == nil {
+		return c.JSON(http.StatusBadRequest, map[string]string{
+			"error": "Timer has not been started yet",
+		})
+	}
+
+	remainingTime := utils.GlobalTimer.TimeLeft()
+
+	err := services.UpdateTeamHint(teamID, hint.Hint, remainingTime)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, map[string]string{
 			"message": "Failed to update team score",
@@ -81,7 +90,7 @@ func GetAllTeamsByHints(c echo.Context) error {
 	return c.JSON(http.StatusOK, teams)
 }
 func StartTimer(c echo.Context) error {
-	utils.CreateTimer(time.Minute)
+	utils.CreateTimer(time.Hour)
 
 	log.Println("Timer started")
 	return c.JSON(http.StatusOK, map[string]string{
@@ -99,6 +108,6 @@ func GetTimeLeft(c echo.Context) error {
 	remainingTime := utils.GlobalTimer.TimeLeft()
 
 	return c.JSON(http.StatusOK, map[string]int{
-		"time_left": remainingTime/1000000000,
+		"time_left": remainingTime / 1000000000,
 	})
 }
