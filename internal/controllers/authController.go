@@ -4,10 +4,11 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/golang-jwt/jwt"
+	"github.com/golang-jwt/jwt/v5"
 	"github.com/google/uuid"
 	"github.com/labstack/echo/v4"
 	"github.com/oik17/mpl-be/internal/database"
+	"github.com/oik17/mpl-be/internal/models"
 	"github.com/oik17/mpl-be/internal/utils"
 	"golang.org/x/crypto/bcrypt"
 )
