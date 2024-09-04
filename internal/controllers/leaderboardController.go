@@ -1,11 +1,14 @@
 package controllers
 
 import (
+	"log"
 	"net/http"
 	"strconv"
+	"time"
 
 	"github.com/labstack/echo/v4"
 	"github.com/oik17/mpl-be/internal/services"
+	"github.com/oik17/mpl-be/internal/utils"
 )
 
 func UpdateTeamScore(c echo.Context) error {
@@ -76,4 +79,26 @@ func GetAllTeamsByHints(c echo.Context) error {
 		})
 	}
 	return c.JSON(http.StatusOK, teams)
+}
+func StartTimer(c echo.Context) error {
+	utils.CreateTimer(time.Minute)
+
+	log.Println("Timer started")
+	return c.JSON(http.StatusOK, map[string]string{
+		"message": "Successfully started timer",
+	})
+}
+
+func GetTimeLeft(c echo.Context) error {
+	if utils.GlobalTimer == nil {
+		return c.JSON(http.StatusBadRequest, map[string]string{
+			"error": "Timer has not been started yet",
+		})
+	}
+
+	remainingTime := utils.GlobalTimer.TimeLeft()
+
+	return c.JSON(http.StatusOK, map[string]int{
+		"time_left": remainingTime,
+	})
 }
