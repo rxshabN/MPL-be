@@ -40,3 +40,4 @@ func GetAllTeams(c echo.Context) error {
 	}
 	return c.JSON(http.StatusOK, teams)
 }
+
