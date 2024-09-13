@@ -13,6 +13,8 @@ import (
 
 func main() {
 	database.Connect()
+	database.RedisConnect()
+
 	e := echo.New()
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())

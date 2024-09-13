@@ -1,7 +1,7 @@
 package services
 
 import (
-	"math"
+	"fmt"
 
 	"github.com/lib/pq"
 	"github.com/oik17/mpl-be/internal/database"
@@ -81,8 +81,10 @@ func GetAllTeamsByHint() ([]models.Teams, error) {
 
 func UpdateTeamHint(teamID string, hint int, remainingTime int) error {
 	db := database.DB.Db
-	score := int(math.Round(float64(remainingTime)/100000000000)) * hint
+	fmt.Printf("%d", remainingTime/1000000000)
+	score := (remainingTime / 1000000000) * hint
 
+	fmt.Printf("\n%d", score)
 	_, err := db.Exec(`UPDATE team SET hint_number=$1, score =$3 WHERE team_id=$2`, hint, teamID, score)
 	if err != nil {
 		return err
