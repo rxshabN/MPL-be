@@ -7,7 +7,7 @@ import (
 	"log"
 	"time"
 
-	"github.com/lib/pq"
+	"github.com/lib/pq"	
 	"github.com/oik17/mpl-be/internal/database"
 	"github.com/oik17/mpl-be/internal/models"
 )
@@ -15,12 +15,10 @@ import (
 func GetAllTeamsByScore() ([]models.Teams, error) {
 	ctx := context.Background()
 
-	// Check for cached data in Redis
 	log.Println("hi")
 	cachedData, err := database.RedisClient.Get(ctx, "teams_by_score").Result()
 	log.Println(cachedData)
 	if cachedData=="" {
-		// Cache miss: Fetch data from database
 		log.Println("Cache miss: fetching data from database")
 
 		db := database.DB.Db
@@ -43,13 +41,11 @@ func GetAllTeamsByScore() ([]models.Teams, error) {
 			teams = append(teams, team)
 		}
 
-		// Serialize and cache the data in Redis
 		teamsJSON, err := json.Marshal(teams)
 		if err != nil {
 			return nil, err
 		}
 
-		// Set the cache with an expiration of 10 minutes
 		err = database.RedisClient.Set(ctx, "teams_by_score", teamsJSON, time.Minute*10).Err()
 		if err != nil {
 			log.Println("Failed to cache data in Redis:", err)
@@ -64,7 +60,6 @@ func GetAllTeamsByScore() ([]models.Teams, error) {
 		return nil, err
 	}
 
-	// Cache hit: Parse the cached JSON data
 	log.Println("Cache hit: returning data from Redis")
 	var teams []models.Teams
 	err = json.Unmarshal([]byte(cachedData), &teams)
