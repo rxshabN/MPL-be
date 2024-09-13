@@ -39,7 +39,7 @@ func Connect() {
 		os.Exit(2)
 	}
 
-	log.Println("Connected")
+	log.Println("Postgres Connected")
 
 	runMigrations(db)
 
