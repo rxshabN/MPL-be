@@ -22,6 +22,7 @@ func UpdateTeamScore(c echo.Context) error {
 			"data":    err.Error(),
 		})
 	}
+
 	err := services.UpdateTeamScore(teamID, score.Score)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, map[string]string{
@@ -47,6 +48,7 @@ func GetAllTeamsByScore(c echo.Context) error {
 }
 
 func UpdateTeamHint(c echo.Context) error {
+	
 	teamID := c.Param("teamID")
 	var hint struct {
 		Hint int `json:"hint"`
@@ -66,7 +68,7 @@ func UpdateTeamHint(c echo.Context) error {
 
 	remainingTime := utils.GlobalTimer.TimeLeft()
 
-	err := services.UpdateTeamHint(teamID, hint.Hint, remainingTime)
+	score, err := services.UpdateTeamHint(teamID, hint.Hint, remainingTime)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, map[string]string{
 			"message": "Failed to update team score",
@@ -75,7 +77,7 @@ func UpdateTeamHint(c echo.Context) error {
 	}
 	return c.JSON(http.StatusOK, map[string]string{
 		"message": "Successfully updated team score",
-		"data":    strconv.Itoa(hint.Hint),
+		"data":    strconv.Itoa(score),
 	})
 }
 

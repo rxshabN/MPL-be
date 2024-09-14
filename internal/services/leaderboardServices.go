@@ -7,7 +7,7 @@ import (
 	"log"
 	"time"
 
-	"github.com/lib/pq"	
+	"github.com/lib/pq"
 	"github.com/oik17/mpl-be/internal/database"
 	"github.com/oik17/mpl-be/internal/models"
 )
@@ -18,11 +18,11 @@ func GetAllTeamsByScore() ([]models.Teams, error) {
 	log.Println("hi")
 	cachedData, err := database.RedisClient.Get(ctx, "teams_by_score").Result()
 	log.Println(cachedData)
-	if cachedData=="" {
+	if cachedData == "" {
 		log.Println("Cache miss: fetching data from database")
 
 		db := database.DB.Db
-		rows, err := db.Query(`SELECT team_id, team_name, team_members, score, hint_number FROM team ORDER BY score`)
+		rows, err := db.Query(`SELECT team_id, team_name, team_members, score, hint_number FROM team ORDER BY score DESC`)
 		if err != nil {
 			return nil, err
 		}
@@ -55,7 +55,7 @@ func GetAllTeamsByScore() ([]models.Teams, error) {
 
 		return teams, nil
 	} else if err != nil {
-		log.Println("im here")
+		log.Print("Fatal error: ")
 		log.Println(err)
 		return nil, err
 	}
@@ -81,7 +81,7 @@ func UpdateTeamScore(teamID string, score int) error {
 func GetAllTeamsByHint() ([]models.Teams, error) {
 	db := database.DB.Db
 
-	rows, err := db.Query(`SELECT team_id, team_name, team_members, score, hint_number FROM team ORDER BY hint_number`)
+	rows, err := db.Query(`SELECT team_id, team_name, team_members, score, hint_number FROM team ORDER BY hint_number DESC`)
 	if err != nil {
 		return nil, err
 	}
@@ -109,7 +109,9 @@ func GetAllTeamsByHint() ([]models.Teams, error) {
 	return teams, nil
 }
 
-func UpdateTeamHint(teamID string, hint int, remainingTime int) error {
+func UpdateTeamHint(teamID string, hint int, remainingTime int) (int, error) {
+	ctx := context.Background()
+	database.RedisClient.Del(ctx, "teams_by_score")
 	db := database.DB.Db
 	fmt.Printf("%d", remainingTime/1000000000)
 	score := (remainingTime / 1000000000) * hint
@@ -117,7 +119,7 @@ func UpdateTeamHint(teamID string, hint int, remainingTime int) error {
 	fmt.Printf("\n%d", score)
 	_, err := db.Exec(`UPDATE team SET hint_number=$1, score =$3 WHERE team_id=$2`, hint, teamID, score)
 	if err != nil {
-		return err
+		return score, err
 	}
-	return nil
+	return score, nil
 }
