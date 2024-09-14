@@ -13,6 +13,9 @@ dropdb:
 dockerfiledb:
 	docker exec -it backend-db-1 bash
 
+tagdocker:
+	docker tag mpl-be guptaakshat/mpl-be:latest
+
 builddocker:
 	docker build -t guptaakshat/mpl-be:latest .
 
@@ -21,9 +24,6 @@ rundocker:
 
 deploydocker:
 	docker push guptaakshat/mpl-be:latest
-
-tagdocker:
-	docker tag mpl-be guptaakshat/mpl-be:latest
 
 redisterminal:
 	docker exec -it some-redis redis-cli
