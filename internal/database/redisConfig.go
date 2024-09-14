@@ -10,7 +10,7 @@ import (
 	"github.com/redis/go-redis/v9"
 )
 
-var RedisClient *redis.Client // Declare globally
+var RedisClient *redis.Client 
 
 func RedisConnect() {
 	redisDB, err := strconv.Atoi(utils.Config("REDIS_DB"))

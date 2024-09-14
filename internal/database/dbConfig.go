@@ -57,7 +57,15 @@ func runMigrations(db *sqlx.DB) {
 			team_name VARCHAR(255),
 			team_members TEXT[],
 			score INTEGER,
-			hint_number INTEGER);
+			hint_number INTEGER
+		);
+
+		CREATE TABLE IF NOT EXISTS users(
+			id UUID PRIMARY KEY,
+			username VARCHAR(255),
+			email VARCHAR(255),
+			password VARCHAR(255)		
+		);
 	`)
 
 	if err != nil {

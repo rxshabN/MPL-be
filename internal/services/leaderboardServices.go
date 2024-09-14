@@ -46,7 +46,7 @@ func GetAllTeamsByScore() ([]models.Teams, error) {
 			return nil, err
 		}
 
-		err = database.RedisClient.Set(ctx, "teams_by_score", teamsJSON, time.Minute*10).Err()
+		err = database.RedisClient.Set(ctx, "teams_by_score", teamsJSON, time.Minute*5).Err()
 		if err != nil {
 			log.Println("Failed to cache data in Redis:", err)
 		} else {
@@ -69,6 +69,7 @@ func GetAllTeamsByScore() ([]models.Teams, error) {
 
 	return teams, nil
 }
+
 func UpdateTeamScore(teamID string, score int) error {
 	db := database.DB.Db
 	_, err := db.Exec(`UPDATE team SET score=$1 WHERE team_id=$2`, score, teamID)

@@ -3,7 +3,6 @@ package main
 import (
 	"net/http"
 
-	"github.com/oik17/mpl-be/internal/controllers"
 	"github.com/oik17/mpl-be/internal/database"
 	"github.com/oik17/mpl-be/internal/routes"
 
@@ -20,12 +19,11 @@ func main() {
 	e.Use(middleware.Recover())
 	e.Use(middleware.CORS())
 
-	e.POST("/signup", controllers.Signup)
-	e.POST("/login", controllers.Login)
-
 	e.GET("/ping", func(c echo.Context) error {
 		return c.String(http.StatusOK, "pong")
 	})
 	routes.TeamRoutes(e)
+	routes.UserRoutes(e)
+
 	e.Start(":8080")
 }
