@@ -18,13 +18,21 @@ var JWTSecret = []byte(utils.Config("JWT_SECRET_KEY"))
 func Signup(c echo.Context) error {
 	db := database.DB.Db
 	user := new(models.User)
+
 	if err := c.Bind(user); err != nil {
 		return c.JSON(http.StatusInternalServerError, map[string]string{"message": err.Error()})
 	}
 
+	err := utils.ValidateEmail(user.Email)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, map[string]string{
+			"message": "Invalid email",
+			"data":    err.Error(),
+		})
+	}
 	user.ID = uuid.New()
 	var existingUser models.User
-	err := db.Get(&existingUser, "SELECT * FROM users WHERE email=$1", user.Email)
+	err = db.Get(&existingUser, "SELECT * FROM users WHERE email=$1", user.Email)
 	if err == nil {
 		return c.JSON(http.StatusInternalServerError, map[string]string{"message": "User already exists"})
 	}

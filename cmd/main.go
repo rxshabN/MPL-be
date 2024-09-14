@@ -22,6 +22,7 @@ func main() {
 	e.GET("/ping", func(c echo.Context) error {
 		return c.String(http.StatusOK, "pong")
 	})
+
 	routes.TeamRoutes(e)
 	routes.UserRoutes(e)
 
