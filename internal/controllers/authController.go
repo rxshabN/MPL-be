@@ -20,7 +20,11 @@ func Signup(c echo.Context) error {
 	user := new(models.User)
 
 	if err := c.Bind(user); err != nil {
-		return c.JSON(http.StatusInternalServerError, map[string]string{"message": err.Error()})
+		return c.JSON(http.StatusInternalServerError, map[string]string{
+			"message": "Failed to create user",
+			"data": err.Error(),
+		})
+
 	}
 
 	err := utils.ValidateEmail(user.Email)
@@ -34,12 +38,18 @@ func Signup(c echo.Context) error {
 	var existingUser models.User
 	err = db.Get(&existingUser, "SELECT * FROM users WHERE email=$1", user.Email)
 	if err == nil {
-		return c.JSON(http.StatusInternalServerError, map[string]string{"message": "User already exists"})
+		return c.JSON(http.StatusInternalServerError, map[string]string{
+			"message": "Failed to create user",
+			"data":    "User already exists",
+		})
 	}
 
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(user.Password), bcrypt.DefaultCost)
 	if err != nil {
-		return c.JSON(http.StatusInternalServerError, map[string]string{"message": err.Error()})
+		return c.JSON(http.StatusInternalServerError, map[string]string{
+			"message": "Failed to create user",
+			"data":    err.Error(),
+		})
 	}
 
 	user.Password = string(hashedPassword)
@@ -47,10 +57,16 @@ func Signup(c echo.Context) error {
 	_, err = db.Exec("INSERT INTO users (id, username, email, password) VALUES ($1, $2, $3, $4)",
 		user.ID, user.UserName, user.Email, user.Password)
 	if err != nil {
-		return c.JSON(http.StatusInternalServerError, map[string]string{"message": err.Error()})
+		return c.JSON(http.StatusInternalServerError, map[string]string{
+			"message": "Failed to create user",
+			"data":    err.Error(),
+		})
 	}
 
-	return c.JSON(http.StatusCreated, map[string]string{"message": "User created successfully"})
+	return c.JSON(http.StatusCreated, map[string]string{
+		"message": "User created successfully",
+		"data":    user.UserName,
+	})
 }
 
 func Login(c echo.Context) error {
