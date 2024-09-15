@@ -47,8 +47,23 @@ func GetAllTeamsByScore(c echo.Context) error {
 	return c.JSON(http.StatusOK, teams)
 }
 
+func GetTeamHint(c echo.Context) error {
+	teamID := c.Param("teamID")
+	hint, err := services.GetTeamHint(teamID)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, map[string]string{
+			"message": "Failed to get team hint",
+			"data":    err.Error(),
+		})
+	}
+	return c.JSON(http.StatusOK, map[string]string{
+		"message": "Successfully fetched team hint",
+		"data":    strconv.Itoa(hint),
+	})
+}
+
 func UpdateTeamHint(c echo.Context) error {
-	
+
 	teamID := c.Param("teamID")
 	var hint struct {
 		Hint int `json:"hint"`

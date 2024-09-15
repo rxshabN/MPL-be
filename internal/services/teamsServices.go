@@ -50,3 +50,13 @@ func GetAllTeams() ([]models.Teams, error) {
 	return teams, nil
 }
 
+func GetTeamHint(teamID string) (int, error) {
+	db := database.DB.Db
+	var hint int
+	err := db.QueryRow(`SELECT hint_number FROM team WHERE team_id=$1`, teamID).Scan(&hint)
+    
+	if err != nil {
+		return 0, err
+	}
+	return hint, nil
+}
