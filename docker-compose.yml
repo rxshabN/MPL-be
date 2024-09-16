@@ -1,9 +1,16 @@
-version: '3.8'
-
 services:
   app:
     build: .
     ports:
       - "8080:8080"
     env_file:
-      - .env  # Environment variables for your external databases
+      - .env
+
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+    volumes:
+      - /c/Users/Akshat/Desktop/Tests/MPL-be/nginx/nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - app
