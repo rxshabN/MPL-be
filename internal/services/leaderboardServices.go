@@ -3,7 +3,6 @@ package services
 import (
 	"context"
 	"encoding/json"
-	"fmt"
 	"log"
 	"time"
 
@@ -70,15 +69,33 @@ func GetAllTeamsByScore() ([]models.Teams, error) {
 	return teams, nil
 }
 
-func UpdateTeamScore(teamID string, score int) error {
+func UpdateTeamScore(teamID string, scoreToAdd int) error {
 	db := database.DB.Db
-	_, err := db.Exec(`UPDATE team SET score=$1 WHERE team_id=$2`, score, teamID)
+
+	// Start a transaction
+	tx, err := db.Begin()
 	if err != nil {
 		return err
 	}
+	defer tx.Rollback()
+
+	var currentScore int
+	err = tx.QueryRow(`SELECT score FROM team WHERE team_id=$1`, teamID).Scan(&currentScore)
+	if err != nil {
+		return err
+	}
+
+	_, err = tx.Exec(`UPDATE team SET score=$1 WHERE team_id=$2`, currentScore+scoreToAdd, teamID)
+	if err != nil {
+		return err
+	}
+
+	if err = tx.Commit(); err != nil {
+		return err
+	}
+
 	return nil
 }
-
 func GetAllTeamsByHint() ([]models.Teams, error) {
 	db := database.DB.Db
 
@@ -114,13 +131,28 @@ func UpdateTeamHint(teamID string, hint int, remainingTime int) (int, error) {
 	ctx := context.Background()
 	database.RedisClient.Del(ctx, "teams_by_score")
 	db := database.DB.Db
-	fmt.Printf("%d", remainingTime/1000000000)
+
 	score := (remainingTime / 1000000000) * hint
 
-	fmt.Printf("\n%d", score)
-	_, err := db.Exec(`UPDATE team SET hint_number=$1, score =$3 WHERE team_id=$2`, hint, teamID, score)
+	tx, err := db.Begin()
+	if err != nil {
+		return 0, err
+	}
+	defer tx.Rollback()
+
+	var currentScore int
+	err = tx.QueryRow(`SELECT score FROM team WHERE team_id=$1`, teamID).Scan(&currentScore)
+	if err != nil {
+		return 0, err
+	}
+
+	_, err = db.Exec(`UPDATE team SET hint_number=$1, score =$3 WHERE team_id=$2`, hint, teamID, score+currentScore)
 	if err != nil {
 		return score, err
 	}
-	return score, nil
+
+	if err = tx.Commit(); err != nil {
+		return 0, err
+	}
+	return score + currentScore, nil
 }
