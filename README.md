@@ -1,1 +1,1 @@
-MPL-be
+Backend for admin and leaderboard portal for Math Premier League
