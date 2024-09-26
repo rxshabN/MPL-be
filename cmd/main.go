@@ -15,7 +15,13 @@ func main() {
 	database.RedisConnect()
 
 	e := echo.New()
-	e.Use(middleware.Logger())
+	e.Use(middleware.LoggerWithConfig(middleware.LoggerConfig{
+		Format: `{"time":"${time_custom}","remote_ip":"${remote_ip}",` +
+			`"host":"${host}","method":"${method}","uri":"${uri}","user_agent":"${user_agent}",` +
+			`"status":${status},"error":"${error}","latency":${latency},"latency_human":"${latency_human}"}` + "\n",
+		CustomTimeFormat: "02/01/2006 15:04:05",
+	}))
+
 	e.Use(middleware.Recover())
 	e.Use(middleware.CORS())
 
