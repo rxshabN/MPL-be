@@ -3,6 +3,7 @@ package services
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"log"
 	"time"
 
@@ -141,9 +142,14 @@ func UpdateTeamHint(teamID string, hint int, remainingTime int) (int, error) {
 	defer tx.Rollback()
 
 	var currentScore int
-	err = tx.QueryRow(`SELECT score FROM team WHERE team_id=$1`, teamID).Scan(&currentScore)
+	var currentHint int
+	err = tx.QueryRow(`SELECT score,hint_number FROM team WHERE team_id=$1`, teamID).Scan(&currentScore, &currentHint)
 	if err != nil {
 		return 0, err
+	}
+
+	if hint == currentHint {
+		return 0, fmt.Errorf("hint already completed by team")
 	}
 
 	_, err = db.Exec(`UPDATE team SET hint_number=$1, score =$3 WHERE team_id=$2`, hint, teamID, score+currentScore)

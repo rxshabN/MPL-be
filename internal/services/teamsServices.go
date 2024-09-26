@@ -1,6 +1,8 @@
 package services
 
 import (
+	"context"
+
 	"github.com/google/uuid"
 	"github.com/lib/pq"
 	"github.com/oik17/mpl-be/internal/database"
@@ -9,6 +11,8 @@ import (
 
 func CreateTeam(team models.Teams) error {
 	db := database.DB.Db
+	ctx := context.Background()	
+	database.RedisClient.Del(ctx, "teams_by_score")
 	_, err := db.Exec(`
         INSERT INTO team (team_id, team_name, team_members, score, hint_number)
         VALUES ($1, $2, $3, $4, $5)`,
@@ -54,7 +58,7 @@ func GetTeamHint(teamID string) (int, error) {
 	db := database.DB.Db
 	var hint int
 	err := db.QueryRow(`SELECT hint_number FROM team WHERE team_id=$1`, teamID).Scan(&hint)
-    
+
 	if err != nil {
 		return 0, err
 	}
