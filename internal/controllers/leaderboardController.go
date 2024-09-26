@@ -76,7 +76,8 @@ func UpdateTeamHint(c echo.Context) error {
 	}
 	if utils.GlobalTimer == nil {
 		return c.JSON(http.StatusBadRequest, map[string]string{
-			"error": "Timer has not been started yet",
+			"message": "Invalid input",
+			"data":    "Timer has not started yet",
 		})
 	}
 
@@ -108,7 +109,7 @@ func GetAllTeamsByHints(c echo.Context) error {
 
 func StartTimer(c echo.Context) error {
 	var input struct {
-		Timer int `json:"timer"`
+		Timer float64 `json:"timer"`
 	}
 
 	if err := c.Bind(&input); err != nil {
