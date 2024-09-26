@@ -63,7 +63,6 @@ func GetTeamHint(c echo.Context) error {
 }
 
 func UpdateTeamHint(c echo.Context) error {
-
 	teamID := c.Param("teamID")
 	var hint struct {
 		Hint int `json:"hint"`
@@ -106,8 +105,9 @@ func GetAllTeamsByHints(c echo.Context) error {
 	}
 	return c.JSON(http.StatusOK, teams)
 }
+
 func StartTimer(c echo.Context) error {
-	utils.CreateTimer(time.Hour)
+	utils.CreateTimer(time.Hour * 2)
 
 	log.Println("Timer started")
 	return c.JSON(http.StatusOK, map[string]string{

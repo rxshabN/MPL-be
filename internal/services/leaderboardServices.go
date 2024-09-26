@@ -132,7 +132,7 @@ func UpdateTeamHint(teamID string, hint int, remainingTime int) (int, error) {
 	database.RedisClient.Del(ctx, "teams_by_score")
 	db := database.DB.Db
 
-	score := (remainingTime / 1000000000) * hint
+	score := (remainingTime / 10000000000) * hint
 
 	tx, err := db.Begin()
 	if err != nil {
