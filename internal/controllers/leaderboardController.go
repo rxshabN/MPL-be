@@ -107,7 +107,16 @@ func GetAllTeamsByHints(c echo.Context) error {
 }
 
 func StartTimer(c echo.Context) error {
-	utils.CreateTimer(time.Hour * 2)
+	var input struct {
+		Timer int `json:"timer"`
+	}
+
+	if err := c.Bind(&input); err != nil {
+		return c.JSON(http.StatusBadRequest, map[string]string{
+			"error": "Invalid input",
+		})
+	}
+	utils.CreateTimer(time.Hour * time.Duration(input.Timer))
 
 	log.Println("Timer started")
 	return c.JSON(http.StatusOK, map[string]string{

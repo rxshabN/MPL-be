@@ -19,6 +19,6 @@ func TeamRoutes(e *echo.Echo) {
 
 	r.GET("/getTeamHint/:teamID", controllers.GetTeamHint)
 
-	r.GET("/startTimer", controllers.StartTimer)
+	r.POST("/startTimer", controllers.StartTimer)
 	r.GET("/getTimer", controllers.GetTimeLeft)
 }
