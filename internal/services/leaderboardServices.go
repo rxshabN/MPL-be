@@ -148,8 +148,8 @@ func UpdateTeamHint(teamID string, hint int, remainingTime int) (int, error) {
 		return 0, err
 	}
 
-	if hint == currentHint {
-		return 0, fmt.Errorf("hint already completed by team")
+	if hint != currentHint+1 {
+		return 0, fmt.Errorf("incorrect hint number for team")
 	}
 
 	_, err = db.Exec(`UPDATE team SET hint_number=$1, score =$3 WHERE team_id=$2`, hint, teamID, score+currentScore)
