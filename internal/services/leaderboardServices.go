@@ -70,33 +70,15 @@ func GetAllTeamsByScore() ([]models.Teams, error) {
 	return teams, nil
 }
 
-func UpdateTeamScore(teamID string, scoreToAdd int) error {
+func UpdateTeamScore(teamID string, score int) error {
 	db := database.DB.Db
-
-	// Start a transaction
-	tx, err := db.Begin()
+	_, err := db.Exec(`UPDATE team SET score=$1 WHERE team_id=$2`, score, teamID)
 	if err != nil {
 		return err
 	}
-	defer tx.Rollback()
-
-	var currentScore int
-	err = tx.QueryRow(`SELECT score FROM team WHERE team_id=$1`, teamID).Scan(&currentScore)
-	if err != nil {
-		return err
-	}
-
-	_, err = tx.Exec(`UPDATE team SET score=$1 WHERE team_id=$2`, currentScore+scoreToAdd, teamID)
-	if err != nil {
-		return err
-	}
-
-	if err = tx.Commit(); err != nil {
-		return err
-	}
-
 	return nil
 }
+
 func GetAllTeamsByHint() ([]models.Teams, error) {
 	db := database.DB.Db
 
