@@ -4,8 +4,6 @@
   <h3 align="center">MPL Backend</h3>
 
   <p align="center">
-    A robust backend API for MPL (Math Premier League) platform
-    <br />
     <a href="https://github.com/orgs/SIAM-VIT/repositories?q=mpl"><strong>Explore other MPL repositories</strong></a>
     <br />
     <br />
