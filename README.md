@@ -4,7 +4,7 @@
   <p align="center">
     A robust backend API for MPL (Math Premier League) platform
     <br />
-    <a href="https://github.com/SIAM-VIT/MPL-be"><strong>Explore the docs »</strong></a>
+    <a href="https://github.com/orgs/SIAM-VIT/repositories?q=mpl"><strong>Explore other MPL repositories</strong></a>
     <br />
     <br />
     <a href="https://github.com/SIAM-VIT/MPL-be/issues">Report Bug</a>
