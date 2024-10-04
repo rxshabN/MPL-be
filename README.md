@@ -22,9 +22,8 @@
   - [Prerequisites](#prerequisites)
   - [Installation](#installation)
 - [Usage](#usage)
-- [Contributing](#contributing)
+- [Contributors](#contributors)
 - [License](#license)
-- [Contact](#contact)
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
@@ -43,7 +42,7 @@ This project is built using the following technologies and frameworks:
 
 - [Go](https://golang.org/)
 - [PostgreSQL](https://www.postgresql.org/)
-- [Gin Web Framework](https://github.com/gin-gonic/gin)
+- [Redis](https://redis.io/docs/latest/)
 
 <!-- GETTING STARTED -->
 ## Getting Started
