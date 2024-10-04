@@ -94,15 +94,25 @@ GET /api/v1/leagues - Get all leagues
 POST /api/v1/matches - Schedule a new match
 For more examples, please refer to the Documentation
 
-<!-- CONTRIBUTING -->
-## Contributing
-Contributions are what make the open-source community such an amazing place to learn, inspire, and create. Any contributions you make are greatly appreciated.
+## Contributors
 
-## Fork the Project
-Create your Feature Branch (git checkout -b feature/your-feature)
-Commit your Changes (git commit -m 'Add some feature')
-Push to the Branch (git push origin feature/your-feature)
-Open a Pull Request
+<table>
+	<tr align="center" style="font-weight:bold">
+		<td>
+		Akshat Gupta
+		<p align="center">
+			<img src = "https://avatars.githubusercontent.com/u/84951451?v=4" width="150" height="150" alt="Akshat Gupta">
+		</p>
+			<p align="center">
+				<a href = "https://github.com/Oik17">
+					<img src = "http://www.iconninja.com/files/241/825/211/round-collaboration-social-github-code-circle-network-icon.svg" width="36" height = "36" alt="GitHub"/>
+				</a>
+			</p>
+		</td>
+	</tr>
+</table>
+
+
 <!-- LICENSE -->
 ## License
 Distributed under the MIT License. See LICENSE for more information.
