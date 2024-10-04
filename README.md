@@ -74,11 +74,22 @@ Make sure you have the following installed:
 
 4. Set up PostgreSQL and configure .env with your database credentials:
    ```sh
-    DB_HOST=localhost
-    DB_USER=postgres
-    DB_PASSWORD=yourpassword
-    DB_NAME=mpl
-    JWT_SECRET_KEY=your_jwt_secret_key
+    # Postgres Configuration
+    DB_HOST=abc
+    DB_PORT=abc
+    DB_USER=abc
+    DB_PASSWORD=abc
+    DB_NAME=abc
+
+    # Redis Configuration
+    REDIS_HOST=abc   
+    REDIS_PORT=abc        
+    REDIS_PASSWORD=abc     
+    REDIS_DB=abc             
+
+    REDIS_URI=abc
+
+    JWT_SECRET_KEY=abc
 
 6. Start the application
    ```sh
