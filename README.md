@@ -85,7 +85,7 @@ Make sure you have the following installed:
    go run cmd/main.go
 
 <!-- USAGE EXAMPLES -->
-Usage
+### Usage
 Once your application is running, you can use the following API endpoints to interact with the MPL platform:
 
 POST /api/v1/auth/register - Register a new user
@@ -95,20 +95,19 @@ POST /api/v1/matches - Schedule a new match
 For more examples, please refer to the Documentation
 
 <!-- CONTRIBUTING -->
-Contributing
+### Contributing
 Contributions are what make the open-source community such an amazing place to learn, inspire, and create. Any contributions you make are greatly appreciated.
 
-Fork the Project
+### Fork the Project
 Create your Feature Branch (git checkout -b feature/your-feature)
 Commit your Changes (git commit -m 'Add some feature')
 Push to the Branch (git push origin feature/your-feature)
 Open a Pull Request
 <!-- LICENSE -->
-License
+### License
 Distributed under the MIT License. See LICENSE for more information.
 
-<!-- CONTACT -->
-Contact
-Akshat Gupta - LinkedIn
 
-Project Link: https://github.com/SIAM-VIT/MPL-be
+<p align="center">
+	Made with :heart: by SIAM-VIT
+</p>
