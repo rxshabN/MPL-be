@@ -1,3 +1,5 @@
+<p align="center"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQlbglQBi64pPDnOHPNNcskSpgwiMWp2io_Hw&s.png" width=160 title="SIAM-VIT" alt="SIAM-VIT"></a>
+</p>
 <div align="center">
   <h3 align="center">MPL Backend</h3>
 
