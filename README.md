@@ -2,7 +2,7 @@
   <h3 align="center">MPL Backend</h3>
 
   <p align="center">
-    A robust backend API for MPL (Multi-Purpose League) platform
+    A robust backend API for MPL (Math Premier League) platform
     <br />
     <a href="https://github.com/SIAM-VIT/MPL-be"><strong>Explore the docs »</strong></a>
     <br />
@@ -21,20 +21,18 @@
 - [Getting Started](#getting-started)
   - [Prerequisites](#prerequisites)
   - [Installation](#installation)
-- [Usage](#usage)
 - [Contributors](#contributors)
 - [License](#license)
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-This is the backend API for the Multi-Purpose League (MPL) platform, which provides a service for managing leagues, games, and teams. The platform handles user registration, game scheduling, and match result management.
+This is the backend API for the Math Premier League (MPL), SIAM-VIT's Flagship Event in VIT's fest, GraVITas 
 
 Key Features:
 - User authentication and authorization
-- League and team management
-- Match scheduling and result tracking
-- Real-time game updates
+- Real time leaderboard monitoring
+- Team score updation
 
 ### Built With
 
@@ -93,16 +91,6 @@ Make sure you have the following installed:
 6. Start the application
    ```sh
    go run cmd/main.go
-
-<!-- USAGE EXAMPLES -->
-## Usage
-Once your application is running, you can use the following API endpoints to interact with the MPL platform:
-
-POST /api/v1/auth/register - Register a new user
-POST /api/v1/auth/login - Login user
-GET /api/v1/leagues - Get all leagues
-POST /api/v1/matches - Schedule a new match
-For more examples, please refer to the Documentation
 
 ## Contributors
 
